@@ -6,4 +6,5 @@ services:
     ports:
       - 3310:3310
     environment: 
-      - WEBMIN_ENABLED=false
+      - StreamMaxLength=100M
+      - MaxFileSize=100M

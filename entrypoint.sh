@@ -2,39 +2,38 @@
 
 # Setup Freshclam
 echo Updating Clamav
+echo Enabled Freshclam config:
+cat /etc/clamav/freshclam.conf | sed -e 's/#.*$//' -e '/^$/d'
 freshclam
 chown -R clamav:clamav /var/lib/clamav
 freshclam -d &
 
 #clamd
-# Variables to handle
-#	StreamMaxLength
-#	MaxDirectoryRecursion
-#	PCREMaxFileSie
-# MAX_SCAN_SIZE	Amount of data scanned for each file - Default 150M
-#	MaxScanSize
-# MAX_FILE_SIZE	Don't scan files larger than this size - Default 30M
-#	MaxFileSize
-# MAX_RECURSION	How many nested archives to scan - Default 10
-#	MaxRecursion
-# MAX_FILES	Number of files to scan withn archive - Default 15000
-#	MaxFiles
-# MAX_EMBEDDEDPE	Maximum file size for embedded PE - Default 10M
-#	MaxEmbeddedPE
-# MAX_HTMLNORMALIZE	Maximum size of HTML to normalize - Default 10M
-#	MaxHTMLNormalize
-# MAX_HTMLNOTAGS	Maximum size of Normlized HTML File to scan- Default 2M
-#	MaxHTMLNoTags
-# MAX_SCRIPTNORMALIZE	Maximum size of a Script to normalize - Default 5M
-#	MaxScriptNormalize
-# MAX_ZIPTYPERCG	Maximum size of ZIP to reanalyze type recognition - Default 1M
-#	MaxZipTypeRcg
-# MAX_PARTITIONS	How many partitions per Raw disk to scan - Default 128
-#	MaxPartitions
-# MAX_ICONSPE	How many Icons in PE to scan - Default 200
-#	MaxIconsPE
-# PCRE_MATCHLIMIT	Maximum PCRE Match Calls - Default 10000
-#	
-# PCRE_RECMATCHLIMIT	Maximum Recursive Match Calls to PCRE - Default 10000
+# MaxConnectionQueueLength	200	Max length the queue of pending connections can grow to.
+# StreamMaxLength	25M	Max connection data size (match to MTA max attachment size)
+# MaxScanSize		100M	Max amount of data to scan for each input file
+# MaxFileSize		25M	Max File size to scan
+# MaxRecursion		16	Max number of nested archive levels
+# MaxFiles		10000	Max number of files to scan in an archive
+# MaxEmbeddedPE		10M	Max file size for embedded PE
+# MaxHTMLNormalize	10M	Max size of HTML file to normalize
+# MaxHTMLNoTags		2M	Max size of a normalized HTML file to scan
+# MaxScriptNormalize	5M	Max size of script file to normalize
+# MaxZipTypeRcg		1M	Max size of ZIP to reanalyze type recognition
+# MaxPartitions		50	Max partitions to scan for raw disk images
+# MaxIconsPE		100	Max Icons in PE to scan
+# PCREMatchLimit	100000	Max PCRE Match Calls
+# PCRERecMatchLimit	5000	Max Recursive Match Calls to PCRE
+# PCREMaxFileSize	25M	File size limit for PCRE subsigs
+# BlockMax		No	Block files that exceed limits with "Heuristic.Limits.Exceeded"
+
+for i in MaxConnectionQueueLength StreamMaxLength MaxScanSize MaxFileSize MaxRecursion MaxFiles MaxEmbeddedPE MaxHTMLNormalize MaxHTMLNoTags MaxScriptNormalize MaxZipTypeRcg MaxPartitions MaxIconsPE PCREMatchLimit PCRERecMatchLimit PCREMaxFileSize BlockMax; do
+	VAL=$(eval echo "\$$i")
+	if [ "$VAL" != "" ]; then
+		sed -i "s/^#$i .*$/$i $VAL/g" /etc/clamav/clamd.conf
+		fi
+	done
 echo Starting Clamd
+echo Enabled Clamd config:
+cat /etc/clamav/clamd.conf | sed -e 's/#.*$//' -e '/^$/d'
 exec clamd
