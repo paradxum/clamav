@@ -4,6 +4,8 @@ Basic Clamav Docker image with Alpine
 This runs a basic Clamd instance that listens on port 3310
 
 ## Environment variables Supported
+| Variable | Default Value | Description |
+| --- | --- | --- |
 | MaxConnectionQueueLength	| 200	| Max length the queue of pending connections can grow to. |
 | StreamMaxLength	| 25M	| Max connection data size (match to MTA max attachment size) |
 | MaxScanSize		| 100M	| Max amount of data to scan for each input file |
