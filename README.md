@@ -23,3 +23,6 @@ This runs a basic Clamd instance that listens on port 3310
 | PCRERecMatchLimit	| 5000	| Max Recursive Match Calls to PCRE |
 | PCREMaxFileSize	| 25M	| File size limit for PCRE subsigs |
 | BlockMax		| No	| Block files that exceed limits with "Heuristic.Limits.Exceeded" |
+| PrivateMirror		| None	| Freshclam - Url to use for Private Mirror |
+| ScriptedUpdates	| yes	| Freshclam - Use DNS based Scripted Updates (disable for private mirror) |
+
