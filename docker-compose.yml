@@ -8,3 +8,5 @@ services:
     environment: 
       - StreamMaxLength=100M
       - MaxFileSize=100M
+#      - ScriptedUpdates=no
+#      - PrivateMirror=http://192.168.123.118:8085
