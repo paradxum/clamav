@@ -5,7 +5,8 @@ RUN apk add --no-cache clamav clamav-libunrar
 COPY entrypoint.sh /sbin
 
 RUN mkdir -p /run/clamav && \
-	chown clamav:clamav /run/clamav
+    touch /run/clamav/junk && \
+    chown -R clamav:clamav /run/clamav
 
 
 RUN sed -i 's/^#Foreground .*$/Foreground yes/g' /etc/clamav/clamd.conf && \

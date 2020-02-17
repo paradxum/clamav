@@ -1,7 +1,13 @@
 #!/bin/sh
 
 # Setup Freshclam
-for i in ScriptedUpdates PrivateMirror; do
+for i in ScriptedUpdates; do
+	VAL=$(eval echo "\$$i")
+	if [ "$VAL" != "" ]; then
+		sed -i "s/^#$i .*$/$i $VAL/g" /etc/clamav/freshclam.conf
+		fi
+	done
+for i in PrivateMirror; do
 	VAL=$(eval echo "\$$i")
 	if [ "$VAL" != "" ]; then
 		echo "$i $VAL" >>/etc/clamav/freshclam.conf
